@@ -29,16 +29,18 @@ void SetupFase() {
     }
     else if (waitingForTouch) {
       // zet de touch value
-      touchValues[touchIndex] = val + 20; // +5 om zeker te weten dat je onder deze waarde komt (bij gebruik van button op esp +20, de waarde zakt door aanraking van electronica)
-      Serial.printf("Vrucht %d touch-waarde: %d\n", touchIndex, val);
 
       if (touchIndex < numFruits) {
         // als we nog brij vruchten zijn:
+        touchValues[touchIndex] = val + 20; // +20 bij fruit om zeker te weten dat je onder deze waarde komt (bij gebruik van button op esp +20, de waarde zakt door aanraking van electronica)
+        Serial.printf("Vrucht %d touch-waarde: %d\n", touchIndex, val);
         Serial.println("→ Pak de vrucht nu op en druk opnieuw op de knop");
         waitingForTouch = false;
         waitingForGrab = true;
         Blink(touchIndex);
       } else {
+        touchValues[touchIndex] = val + 3; // +5 bij blad om zeker te weten dat je onder deze waarde komt (bij gebruik van button op esp +20, de waarde zakt door aanraking van electronica)
+        Serial.printf("Vrucht %d touch-waarde: %d\n", touchIndex, val);
         // als het om een blad gaat:
         Serial.println("→ Threshold ingesteld voor blad");
         digitalWrite(ledPins[touchIndex], LOW);

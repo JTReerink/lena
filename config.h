@@ -5,10 +5,10 @@
 #include <Arduino.h>
 #include <Adafruit_MPR121.h>
 
-const int numTouchpads = 2;                 // totaal aantal touchpads
+const int numTouchpads = 6;                 // totaal aantal touchpads
 const int numFruits = 2;                    // aantal touchpads met fruitstukken
 const int ledPins[numTouchpads] = {         // alle LED pins
-  2, 15
+  12, 14, 25, 26, 27, 33
 };
 #define BUTTON_PIN 13                        // button gebruikt tijdens setup
 
