@@ -42,6 +42,8 @@ void setup() {
     shuffleArray(ledstripParts[i], NUM_LEDS/numTouchpads);
 
   }
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
 
   xTaskCreatePinnedToCore(
     LedAnimCode, /* Function to implement the task */
