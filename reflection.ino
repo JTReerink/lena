@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "thresholdSetup.h"
+#include "ledstrip.h"
 
 Adafruit_MPR121 cap = Adafruit_MPR121();
 
@@ -17,6 +18,8 @@ TouchState touchStates[numTouchpads];
 
 uint16_t arrayToTD[numTouchpads];
 
+TaskHandle_t LedAnim;
+
 void setup() {
   Serial.begin(115200);
 
@@ -27,6 +30,29 @@ void setup() {
   for (int i = 0; i < numTouchpads; i++) {
     pinMode(ledPins[i], OUTPUT);
   }
+
+  for (int i=0; i < numTouchpads; i++) {
+    for(int j=0; j < NUM_LEDS/numTouchpads + 1; j++) {
+      if(i + j * numTouchpads >= NUM_LEDS) {
+        ledstripParts[i][j] = i + (j - 1) * numTouchpads;
+        continue;
+      }
+      ledstripParts[i][j] = i + j * numTouchpads;
+    }
+    shuffleArray(ledstripParts[i], NUM_LEDS/numTouchpads);
+
+  }
+
+  xTaskCreatePinnedToCore(
+    LedAnimCode, /* Function to implement the task */
+    "Task1", /* Name of the task */
+    10000,  /* Stack size in words */
+    NULL,  /* Task input parameter */
+    0,  /* Priority of the task */
+    &LedAnim,  /* Task handle. */
+    1   /* Core where the task should run */
+  ); 
+
 
   // Check of de mpr121 werkt
   if (!cap.begin(0x5A)) {
@@ -116,6 +142,6 @@ void loop() {
       //               touchValues[i], releaseValues[i], grabValues[i]);
       // Serial.println(touchStates[i]);
     }
-    delay(500);
+    vTaskDelay(500 / portTICK_PERIOD_MS);
   }
 }
