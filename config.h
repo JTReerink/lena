@@ -6,7 +6,7 @@
 #include <Adafruit_NeoPixel.h> //Ledstrip
 #include <Adafruit_MPR121.h>   //Cap-sensor
 
-const int numTouchpads = 6;                 // totaal aantal touchpads
+const int numTouchpads = 5;                 // totaal aantal touchpads
 const int numFruits = 2;                    // aantal touchpads met fruitstukken
 const int ledPins[6] = {         // alle LED pins
   12, 14, 25, 26, 27, 33

@@ -41,7 +41,6 @@ void LedAnimCode( void * pvParameters) {
         strip.setPixelColor(ledstripParts[i][previousNumber], strip.Color(0, 0, 0));
 
         // Zet de huidige LED aan
-        Serial.printf("DEBUG: stripColors[%d] = 0x%08X\n", i, stripColors[i]);
         strip.setPixelColor(ledstripParts[i][currentNumber], stripColors[i]);
 
         // Verhoog currentNumber en reset naar 0 als het einde is bereikt

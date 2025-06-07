@@ -84,34 +84,35 @@ void loop() {
     for (int i = 0; i < numTouchpads; i++) {
       uint16_t currentValue = cap.filteredData(i);
 
-      if (i < 2) { // Alleen voor de vruchten (de eerste 2 touchpads)
-        switch (touchStates[i]) {
-          case GRABBED:
-            // Pas terug naar RELEASED als het duidelijk onder de grab-waarde komt
-            if (currentValue < grabValues[i] - grabThresholdMargin) {
-              touchStates[i] = RELEASED;
-            }
-            break;
-
-          case TOUCHED:
-          case RELEASED:
-            // GRABBED wordt alleen geactiveerd als de waarde duidelijk boven de release-waarde ligt
-            if (currentValue > grabValues[i]) {
-              touchStates[i] = GRABBED;
-            } else if (currentValue < touchValues[i]) {
-              touchStates[i] = TOUCHED;
-            } else {
-              touchStates[i] = RELEASED;
-            }
-            break;
-        }
-      } else { // Voor de bladeren, geen grab-fase
-        if (currentValue < touchValues[i]) {
-          touchStates[i] = TOUCHED;
-        } else {
-          touchStates[i] = RELEASED;
-        }
+      if (currentValue < touchValues[i]) {
+        touchStates[i] = TOUCHED;
+      } else {
+        touchStates[i] = RELEASED;
       }
+      // if (i < numFruits) { // Alleen voor de vruchten (de eerste 2 touchpads)
+      //   switch (touchStates[i]) {
+      //     case GRABBED:
+      //       // Pas terug naar RELEASED als het duidelijk onder de grab-waarde komt
+      //       if (currentValue < grabValues[i] - grabThresholdMargin) {
+      //         touchStates[i] = RELEASED;
+      //       }
+      //       break;
+
+      //     case TOUCHED:
+      //     case RELEASED:
+      //       // GRABBED wordt alleen geactiveerd als de waarde duidelijk boven de release-waarde ligt
+      //       if (currentValue > grabValues[i]) {
+      //         touchStates[i] = GRABBED;
+      //       } else if (currentValue < touchValues[i]) {
+      //         touchStates[i] = TOUCHED;
+      //       } else {
+      //         touchStates[i] = RELEASED;
+      //       }
+      //       break;
+      //   }
+      // } else { // Voor de bladeren, geen grab-fase
+        
+      // }
 
       // zet tijdelijke prev state
       int prevState = arrayToTD[i];
@@ -144,6 +145,7 @@ void loop() {
       //               touchValues[i], releaseValues[i], grabValues[i]);
       // Serial.println(touchStates[i]);
     }
+
     vTaskDelay(500 / portTICK_PERIOD_MS);
   }
 }
